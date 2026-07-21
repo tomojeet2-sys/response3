@@ -31,10 +31,10 @@
       id: 'q2', type: 'single-other',
       text: 'When you think about us becoming officially committed, what worries you the most?',
       options: [
-        'That your feelings may change with time.',
-        'That you might stop loving me.',
+        'That your(Indra) feelings may change with time.',
+        'That you(Indra) might stop loving me.',
         'That commitment makes heartbreak harder.',
-        'Nothing in particular.'
+        'Fear of not turning into permanent.'
       ],
       otherLabel: 'Other'
     },
@@ -45,14 +45,14 @@
         'It makes me happy.',
         'It makes me hopeful.',
         'I become excited but also scared.',
-        "I avoid thinking about it because I'm afraid it may never happen.",
+        "I'm afraid it may never happen.",
         "I'm not sure."
       ],
       branchOn: 3 // 0-indexed: "I avoid thinking about it..."
     },
     q3b: {
       id: 'q3b', type: 'single-other',
-      text: 'If one day everything Indra dreams about actually came true—our commitment, our future and our marriage—how do you think you would feel?',
+      text: 'If one day everything Indra dreams about actually came true—our commitment, our future and our marriage-how do you think you would feel?',
       options: [
         'Peaceful',
         'Happy',
@@ -84,7 +84,7 @@
       text: 'When it comes to physical closeness (holding hands, hugs, cuddling etc.), what best describes how you feel?',
       options: [
         'I feel comfortable expressing it.',
-        'I want it but hesitate to ask.',
+        'I feel uncomfortable before anything permanent.',
         'I\u2019m afraid it could be misunderstood.',
         "I worry it might change how I'm seen.",
         "I'd rather not answer."
