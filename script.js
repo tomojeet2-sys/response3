@@ -40,7 +40,7 @@
     },
     q3: {
       id: 'q3', type: 'single',
-      text: 'When I talk about our future—like commitment, marriage, or growing old together—what usually goes through your mind?',
+      text: 'When I talk about our future—like commitment, marriage, or growing old together-what usually goes through your mind?',
       options: [
         'It makes me happy.',
         'It makes me hopeful.',
@@ -52,7 +52,7 @@
     },
     q3b: {
       id: 'q3b', type: 'single-other',
-      text: 'If one day everything Indra dreams about actually came true—our commitment, our future and our marriage-how do you think you would feel?',
+      text: 'If one day everything Indra dreams about actually came true-our commitment, our future and our marriage-how do you think you would feel?',
       options: [
         'Peaceful',
         'Happy',
@@ -114,22 +114,22 @@
     open1: {
       id: 'open1', type: 'textarea',
       text: 'If you could truly have the future you want for us, what would it look like?',
-      note: "There's absolutely no pressure to write anything here. But if kichu bolte iccha kore, tumi ekhane likhte paro. I'll read every word with care. \u2764\uFE0F"
+      note: "There's absolutely no pressure to write anything here. But if kichu bolte iccha kore, tui ekhane likhte parish. I'll read every word with care. \u2764\uFE0F"
     },
     open2: {
       id: 'open2', type: 'textarea',
       text: 'If all your fears disappeared for one day, what would you do differently with Indra?',
-      note: "There's absolutely no pressure to write anything here. But if kichu bolte iccha kore, tumi ekhane likhte paro. I'll read every word with care. \u2764\uFE0F"
+      note: "There's absolutely no pressure to write anything here. But if kichu bolte iccha kore, tui ekhane likhte parish. I'll read every word with care. \u2764\uFE0F"
     },
     open3: {
       id: 'open3', type: 'textarea',
       text: "What's one thing you've always wanted to tell Indra but never found the courage to say?",
-      note: "There's absolutely no pressure to write anything here. But if kichu bolte iccha kore, tumi ekhane likhte paro. I'll read every word with care. \u2764\uFE0F"
+      note: "There's absolutely no pressure to write anything here. But if kichu bolte iccha kore, tui ekhane likhte parish. I'll read every word with care. \u2764\uFE0F"
     },
     open4: {
       id: 'open4', type: 'textarea',
       text: 'Is there anything else you\u2019d like to tell me?',
-      note: "There's absolutely no pressure to write anything here. But if kichu bolte iccha kore, tumi ekhane likhte paro. I'll read every word with care. \u2764\uFE0F"
+      note: "There's absolutely no pressure to write anything here. But if kichu bolte iccha kore, tui ekhane likhte parish. I'll read every word with care. \u2764\uFE0F"
     }
   };
 
