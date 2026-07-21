@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Understanding Your Heart</title>
+
+<!-- Fonts: an elegant storybook serif for display, a soft rounded sans for body -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Living background: canvas holds fireflies / dust / bokeh -->
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <!-- Floating petals & butterflies layer (DOM, CSS-animated) -->
+  <div id="floaters" aria-hidden="true"></div>
+  <!-- Soft light-ray / vignette overlay -->
+  <div class="light-rays" aria-hidden="true"></div>
+
+  <!-- Flower progress signature (visible during the questionnaire) -->
+  <div id="flower-progress" class="flower-progress" hidden aria-hidden="true">
+    <svg viewBox="0 0 120 120" id="flower-svg" width="72" height="72">
+      <!-- petals injected by JS -->
+      <circle cx="60" cy="60" r="10" class="flower-center" />
+    </svg>
+    <span id="flower-count" class="flower-count">0 / 14</span>
+  </div>
+
+  <main id="app" role="main">
+
+    <!-- ============ SCREEN 0 : WELCOME ============ -->
+    <section class="screen active" id="screen-welcome" data-screen="welcome">
+      <div class="glass-card welcome-card">
+        <p class="eyebrow">a gift, quietly made</p>
+        <h1 class="display-title">Understanding Your Heart <span class="heart-emoji">❤️</span></h1>
+        <p class="subtitle">
+          I didn't build this to judge you.<br>
+          I built this because sometimes clicking an answer is easier than finding the right words.
+        </p>
+        <button class="btn btn-primary btn-begin" id="btn-begin">
+          <span>Begin</span>
+          <svg class="btn-arrow" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M5 12h14M13 6l6 6-6 6"/>
+          </svg>
+        </button>
+      </div>
+    </section>
+
+    <!-- ============ SCREEN 1 : INTRODUCTION ============ -->
+    <section class="screen" id="screen-intro" data-screen="intro">
+      <div class="glass-card intro-card">
+        <h2 class="display-heading">Hi <span class="heart-emoji">❤️</span></h2>
+        <div class="intro-text">
+          <p>I made this just for you.</p>
+          <p>This isn't a psychology test. This isn't something you'll pass or fail.</p>
+          <p>Over these months, I've realised that sometimes feelings are difficult to explain in words. So I thought maybe choosing an answer is easier than saying it out loud.</p>
+          <p>There are no right or wrong answers here. Please answer only what genuinely feels true.</p>
+          <p>Nothing you answer will reduce how much I care about you. I only wish to understand you a little better.</p>
+          <p class="intro-note">Whenever the questionnaire says <em>"I"</em>, <em>"I"</em> refers to Indra.</p>
+        </div>
+        <button class="btn btn-primary" id="btn-start-questions">
+          <span>I'm ready</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ============ SCREEN 2 : QUESTIONNAIRE (rendered dynamically) ============ -->
+    <section class="screen" id="screen-question" data-screen="question">
+      <div class="glass-card question-card">
+        <div class="q-meta">
+          <span class="q-number" id="q-number">Question 1</span>
+          <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" id="progress-track">
+            <div class="progress-fill" id="progress-fill"></div>
+          </div>
+        </div>
+
+        <h3 class="q-text" id="q-text"></h3>
+        <p class="q-hint" id="q-hint" hidden></p>
+
+        <div id="q-body" class="q-body">
+          <!-- options / slider / textarea injected here by JS -->
+        </div>
+
+        <div class="q-nav">
+          <button class="btn btn-ghost" id="btn-back">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+            <span>Back</span>
+          </button>
+          <button class="btn btn-primary" id="btn-next">
+            <span>Next</span>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SCREEN 3 : ENDING TRANSITION ============ -->
+    <section class="screen" id="screen-transition" data-screen="transition">
+      <div class="glass-card transition-card">
+        <div class="loader-bloom" aria-hidden="true">
+          <div class="petal-spin p1"></div>
+          <div class="petal-spin p2"></div>
+          <div class="petal-spin p3"></div>
+          <div class="petal-spin p4"></div>
+          <div class="petal-spin p5"></div>
+        </div>
+        <p class="loader-line" id="loader-line">Reading your responses...</p>
+      </div>
+    </section>
+
+    <!-- ============ SCREEN 4 : THANK YOU ============ -->
+    <section class="screen" id="screen-thankyou" data-screen="thankyou">
+      <div class="glass-card thankyou-card">
+        <h2 class="display-heading">Thank you <span class="heart-emoji">❤️</span></h2>
+        <div class="intro-text">
+          <p>If you've reached this page, thank you for trusting me.</p>
+          <p>I didn't create this because I wanted perfect answers. I created this because understanding you matters more than guessing.</p>
+          <p>Whatever your answers are, they won't change how I see you.</p>
+          <p>If your past has taught you to be afraid, I hope my actions — not just my words — can slowly teach you that it's okay to feel safe again.</p>
+          <p>Whether it takes weeks, months, or years, I'll always choose understanding over assumptions.</p>
+          <p class="signature-line">Thank you for letting me understand your heart a little better.</p>
+        </div>
+
+        <div class="pdf-status" id="pdf-status">
+          <div class="spinner" aria-hidden="true"></div>
+          <span>Preparing your response letter...</span>
+        </div>
+
+        <div class="pdf-ready" id="pdf-ready" hidden>
+          <button class="btn btn-primary btn-download" id="btn-download">
+            <span class="heart-emoji">❤️</span>
+            <span>Download My Response Letter</span>
+          </button>
+          <p class="pdf-note">Your response letter is ready.<br>
+          If you ever feel comfortable sharing it with Indra, you can simply send him this PDF.<br>
+          There's absolutely no pressure. This belongs to you.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- jsPDF for local, client-side PDF generation (no server, no network required at runtime except this CDN file) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

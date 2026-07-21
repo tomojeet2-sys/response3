@@ -1,0 +1,540 @@
+/* ============================================================
+   UNDERSTANDING YOUR HEART — stylesheet
+   Palette: pastel sky blue / baby blue / lavender / soft pink / light cyan
+   Mood: Ghibli-soft, Apple-clean, storybook-elegant
+   ============================================================ */
+
+:root{
+  /* ---- palette ---- */
+  --sky:        #AEE1F9;
+  --baby-blue:  #D6EEFF;
+  --lavender:   #E4DBF7;
+  --soft-pink:  #FBDEE6;
+  --light-cyan: #E1F8F4;
+  --white:      #FFFFFF;
+
+  --ink:        #3E3A5E;      /* soft plum-navy for body text */
+  --ink-soft:   #6C6790;
+  --gold:       #E9C9A6;      /* rose-gold accent */
+
+  --glass-bg:   rgba(255,255,255,0.42);
+  --glass-border: rgba(255,255,255,0.65);
+  --glass-shadow: 0 20px 60px -20px rgba(120,120,180,0.35);
+
+  --radius-lg: 32px;
+  --radius-md: 20px;
+  --radius-sm: 14px;
+
+  --font-display: 'Cormorant Garamond', serif;
+  --font-body: 'Quicksand', sans-serif;
+}
+
+*{ box-sizing: border-box; }
+
+html, body{
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body{
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: linear-gradient(160deg, var(--baby-blue) 0%, var(--light-cyan) 38%, var(--lavender) 72%, var(--soft-pink) 100%);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
+
+/* ---------------------------------------------------------------
+   Background layers
+--------------------------------------------------------------- */
+#bg-canvas{
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.light-rays{
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 40% at 15% 0%, rgba(255,255,255,0.55), transparent 60%),
+    radial-gradient(ellipse 50% 35% at 90% 100%, rgba(250,220,230,0.4), transparent 60%);
+  mix-blend-mode: soft-light;
+}
+
+#floaters{
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.floater{
+  position: absolute;
+  will-change: transform, opacity;
+  opacity: 0.85;
+  filter: drop-shadow(0 2px 6px rgba(150,120,180,0.25));
+}
+
+@keyframes drift-up{
+  0%   { transform: translate3d(0, 110vh, 0) rotate(0deg); opacity: 0; }
+  8%   { opacity: 0.9; }
+  92%  { opacity: 0.8; }
+  100% { transform: translate3d(var(--drift-x, 40px), -12vh, 0) rotate(var(--drift-r, 180deg)); opacity: 0; }
+}
+
+@keyframes flutter{
+  0%, 100% { transform: translateY(0) rotate(-6deg); }
+  50%      { transform: translateY(-14px) rotate(6deg); }
+}
+
+/* ---------------------------------------------------------------
+   Layout
+--------------------------------------------------------------- */
+#app{
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 20px;
+}
+
+.screen{
+  display: none;
+  width: 100%;
+  max-width: 620px;
+  animation: fade-in 0.7s ease both;
+}
+
+.screen.active{ display: block; }
+
+@keyframes fade-in{
+  from{ opacity: 0; transform: translateY(18px); }
+  to{ opacity: 1; transform: translateY(0); }
+}
+
+.screen.leaving{
+  animation: fade-out 0.35s ease both;
+}
+@keyframes fade-out{
+  to{ opacity: 0; transform: translateY(-14px); }
+}
+
+/* ---------------------------------------------------------------
+   Glass card
+--------------------------------------------------------------- */
+.glass-card{
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: blur(22px) saturate(140%);
+  -webkit-backdrop-filter: blur(22px) saturate(140%);
+  padding: 48px 44px;
+  text-align: center;
+}
+
+@media (max-width: 560px){
+  .glass-card{ padding: 34px 24px; border-radius: var(--radius-md); }
+}
+
+.eyebrow{
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin: 0 0 14px;
+}
+
+.display-title{
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(34px, 6vw, 52px);
+  line-height: 1.15;
+  margin: 0 0 18px;
+  color: var(--ink);
+}
+
+.display-heading{
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(30px, 5vw, 42px);
+  margin: 0 0 22px;
+}
+
+.heart-emoji{ display: inline-block; animation: heartbeat 1.8s ease-in-out infinite; }
+@keyframes heartbeat{
+  0%, 100% { transform: scale(1); }
+  15% { transform: scale(1.18); }
+  30% { transform: scale(1); }
+  45% { transform: scale(1.12); }
+}
+
+.subtitle{
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--ink-soft);
+  max-width: 440px;
+  margin: 0 auto 34px;
+}
+
+/* ---------------------------------------------------------------
+   Buttons
+--------------------------------------------------------------- */
+.btn{
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 16px;
+  border: none;
+  border-radius: 999px;
+  padding: 15px 30px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+.btn:active{ transform: scale(0.97); }
+.btn:focus-visible{ outline: 3px solid var(--gold); outline-offset: 2px; }
+
+.btn-primary{
+  background: linear-gradient(135deg, var(--sky), var(--lavender));
+  color: #35315A;
+  box-shadow: 0 10px 26px -10px rgba(140,150,220,0.55);
+}
+.btn-primary:hover{ transform: translateY(-2px); box-shadow: 0 14px 30px -10px rgba(140,150,220,0.65); }
+
+.btn-ghost{
+  background: rgba(255,255,255,0.5);
+  color: var(--ink-soft);
+  border: 1px solid rgba(255,255,255,0.8);
+}
+.btn-ghost:hover{ background: rgba(255,255,255,0.75); }
+.btn-ghost:disabled{ opacity: 0.4; cursor: not-allowed; }
+
+.btn-begin{ font-size: 17px; padding: 16px 36px; }
+.btn-arrow{ transition: transform 0.25s ease; }
+.btn:hover .btn-arrow{ transform: translateX(3px); }
+
+.btn-download{
+  font-size: 17px;
+  padding: 17px 32px;
+  background: linear-gradient(135deg, var(--soft-pink), var(--gold));
+}
+
+/* ---------------------------------------------------------------
+   Intro / thank-you text blocks
+--------------------------------------------------------------- */
+.intro-text p{
+  font-size: 16.5px;
+  line-height: 1.8;
+  color: var(--ink-soft);
+  margin: 0 0 14px;
+  text-align: left;
+}
+.intro-text{ margin-bottom: 30px; }
+.intro-note{ font-style: italic; color: var(--ink); }
+.signature-line{
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-style: italic;
+  color: var(--ink);
+  text-align: center !important;
+  margin-top: 22px !important;
+}
+
+/* ---------------------------------------------------------------
+   Flower progress signature
+--------------------------------------------------------------- */
+.flower-progress{
+  position: fixed;
+  top: 22px;
+  right: 22px;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.flower-count{
+  font-size: 12px;
+  color: var(--ink-soft);
+  background: rgba(255,255,255,0.55);
+  padding: 2px 10px;
+  border-radius: 999px;
+  backdrop-filter: blur(6px);
+}
+.flower-petal{
+  transition: fill 0.5s ease, opacity 0.5s ease;
+  fill: rgba(255,255,255,0.35);
+  stroke: rgba(255,255,255,0.8);
+  stroke-width: 1;
+}
+.flower-petal.filled{ fill: url(#petalGradient); }
+.flower-center{ fill: var(--gold); }
+
+@media (max-width: 560px){
+  .flower-progress{ top: 10px; right: 10px; transform: scale(0.8); transform-origin: top right; }
+}
+
+/* ---------------------------------------------------------------
+   Question screen
+--------------------------------------------------------------- */
+.question-card{ text-align: left; }
+
+.q-meta{ margin-bottom: 22px; }
+.q-number{
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  display: block;
+  margin-bottom: 10px;
+}
+.progress-track{
+  width: 100%;
+  height: 6px;
+  background: rgba(255,255,255,0.5);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.progress-fill{
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--sky), var(--soft-pink));
+  border-radius: 999px;
+  transition: width 0.5s ease;
+}
+
+.q-text{
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(22px, 4vw, 28px);
+  line-height: 1.4;
+  margin: 0 0 8px;
+  color: var(--ink);
+}
+.q-hint{
+  font-size: 14.5px;
+  color: var(--ink-soft);
+  margin: 0 0 18px;
+}
+
+.q-body{ margin: 24px 0 10px; }
+
+/* option buttons */
+.option-btn{
+  display: block;
+  width: 100%;
+  text-align: left;
+  font-family: var(--font-body);
+  font-size: 15.5px;
+  font-weight: 500;
+  color: var(--ink);
+  background: rgba(255,255,255,0.55);
+  border: 1.5px solid rgba(255,255,255,0.8);
+  border-radius: var(--radius-sm);
+  padding: 15px 20px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  transition: all 0.22s ease;
+}
+.option-btn:hover{
+  background: rgba(255,255,255,0.85);
+  border-color: var(--sky);
+  transform: translateX(3px);
+}
+.option-btn.selected{
+  background: linear-gradient(135deg, var(--sky), var(--lavender));
+  border-color: var(--sky);
+  box-shadow: 0 8px 20px -8px rgba(140,150,220,0.5);
+  color: #2E2A50;
+}
+.option-btn:focus-visible{ outline: 3px solid var(--gold); outline-offset: 2px; }
+
+.other-input{
+  width: 100%;
+  margin-top: 4px;
+  font-family: var(--font-body);
+  font-size: 15px;
+  padding: 13px 16px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid rgba(255,255,255,0.8);
+  background: rgba(255,255,255,0.6);
+  color: var(--ink);
+  resize: vertical;
+}
+.other-input:focus{ outline: none; border-color: var(--sky); background: rgba(255,255,255,0.85); }
+
+/* slider */
+.slider-wrap{ padding: 10px 4px 4px; }
+.slider-labels{
+  display: flex;
+  justify-content: space-between;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  margin-bottom: 14px;
+}
+input[type="range"].heart-slider{
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 8px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--soft-pink), var(--sky));
+  outline: none;
+}
+input[type="range"].heart-slider::-webkit-slider-thumb{
+  -webkit-appearance: none;
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff, var(--gold));
+  border: 2px solid #fff;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(160,120,150,0.4);
+}
+input[type="range"].heart-slider::-moz-range-thumb{
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff, var(--gold));
+  border: 2px solid #fff;
+  cursor: pointer;
+}
+.slider-value{
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 40px;
+  font-weight: 600;
+  margin-top: 14px;
+  color: var(--ink);
+}
+
+/* textarea (open questions) */
+.open-textarea{
+  width: 100%;
+  min-height: 160px;
+  font-family: var(--font-body);
+  font-size: 15.5px;
+  line-height: 1.6;
+  padding: 16px 18px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid rgba(255,255,255,0.8);
+  background: rgba(255,255,255,0.55);
+  color: var(--ink);
+  resize: vertical;
+}
+.open-textarea:focus{ outline: none; border-color: var(--sky); background: rgba(255,255,255,0.8); }
+.open-note{
+  font-size: 14px;
+  font-style: italic;
+  color: var(--ink-soft);
+  margin-top: 12px;
+  line-height: 1.6;
+}
+
+.q-nav{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30px;
+}
+
+/* ---------------------------------------------------------------
+   Transition / loader
+--------------------------------------------------------------- */
+.transition-card{ text-align: center; padding: 70px 40px; }
+
+.loader-bloom{
+  position: relative;
+  width: 90px;
+  height: 90px;
+  margin: 0 auto 30px;
+}
+.petal-spin{
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 34px; height: 48px;
+  margin: -24px 0 0 -17px;
+  border-radius: 50% 50% 50% 50%/60% 60% 40% 40%;
+  background: linear-gradient(160deg, var(--soft-pink), var(--sky));
+  transform-origin: 50% 100%;
+  animation: bloom-spin 2.4s ease-in-out infinite;
+  opacity: 0.85;
+}
+.petal-spin.p1{ transform: rotate(0deg); animation-delay: 0s; }
+.petal-spin.p2{ transform: rotate(72deg); animation-delay: 0.15s; }
+.petal-spin.p3{ transform: rotate(144deg); animation-delay: 0.3s; }
+.petal-spin.p4{ transform: rotate(216deg); animation-delay: 0.45s; }
+.petal-spin.p5{ transform: rotate(288deg); animation-delay: 0.6s; }
+
+@keyframes bloom-spin{
+  0%, 100%{ transform: rotate(var(--r, 0deg)) scale(0.7); opacity: 0.5; }
+  50%{ transform: rotate(var(--r, 0deg)) scale(1.05); opacity: 1; }
+}
+.petal-spin.p1{ --r: 0deg; } .petal-spin.p2{ --r: 72deg; } .petal-spin.p3{ --r: 144deg; }
+.petal-spin.p4{ --r: 216deg; } .petal-spin.p5{ --r: 288deg; }
+
+.loader-line{
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-style: italic;
+  color: var(--ink-soft);
+  transition: opacity 0.4s ease;
+}
+
+/* ---------------------------------------------------------------
+   PDF status / ready
+--------------------------------------------------------------- */
+.pdf-status{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-size: 15px;
+  color: var(--ink-soft);
+  margin-top: 20px;
+}
+.spinner{
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  border: 2.5px solid rgba(160,150,200,0.3);
+  border-top-color: var(--ink-soft);
+  animation: spin 0.9s linear infinite;
+}
+@keyframes spin{ to{ transform: rotate(360deg); } }
+
+.pdf-ready{ margin-top: 22px; }
+.pdf-note{
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+  margin-top: 18px;
+}
+
+/* ---------------------------------------------------------------
+   Keyboard focus visibility (accessibility)
+--------------------------------------------------------------- */
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible{
+  outline: 3px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* Scrollbar - soft */
+::-webkit-scrollbar{ width: 10px; }
+::-webkit-scrollbar-thumb{ background: rgba(180,170,220,0.4); border-radius: 999px; }
+::-webkit-scrollbar-track{ background: transparent; }
